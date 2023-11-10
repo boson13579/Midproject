@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block title %}
+NCartU
+{% endblock %}
+
+{% block body %}
+<!-- Main Store Body -->
+<div aria-hidden="true">
+  <div>
+    <div>
+      <div>
+        <h5 class="modal-title" id="exampleModalLongTitle">Shopping Cart</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        </button>
+      </div>
+      <div>
+        <div id="shoppingCart">
+          <div class="container">
+            <div class="row">
+              <div class="col-sm">
+                <table class="table table-sm">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Item</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Quantity</th>
+                      <th scope="col">Unit Price</th>
+                      <th scope="col">Sub-Total</th>
+                      <th scope="col"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% if shopLen != 0 %}
+                    {% for i in range(shopLen) %}
+                    <tr>
+                      <th scope="row">{{ i + 1 }}</th>
+                      <td><img src="/static/img/{{ shoppingCart[i][0] }}" width="30px" alt="{{ shoppingCart[i][1] }}" />
+                      </td>
+                      <td>{{ shoppingCart[i][1] }}</td>
+                      <td>
+                        <form action="/update/">
+                          <input type="hidden" name="id" value="{{shoppingCart[i][5]}}" />
+                          <input type="number" name="quantity" min="1" max="999" size="5"
+                            value="{{ shoppingCart[i][2] }}">
+                          <button type="submit" class="btn btn-warning checkout">Update</button>
+                        </form>
+                      </td>
+                      <td>{{ shoppingCart[i][3] }} TWD</td>
+                      <td>{{ shoppingCart[i][4] }} TWD</td>
+                      <td>
+                        <form action="/remove/" methods="GET">
+                          <input type="hidden" name="id" value="{{ shoppingCart[i][5] }}" />
+                          <button type="submit" class="btn btn-secondary btn-sm" id="removeFromCart">Remove</button>
+                        </form>
+                      </td>
+                    </tr>
+                  </tbody>
+                  {% endfor %}
+                  <tfoot>
+                    <tr>
+                      <td colSpan="7">Total: {{ total }} TWD<br /><br />
+                        <div class="modal-footer">
+                          <a href="/"><button type="button" class="btn btn-primary checkout">Continue
+                              Shopping</button></a>
+                          <a href="/checkout/"><button type="button"
+                              class="btn btn-success checkout">Checkout</button></a>
+                        </div>
+                      </td>
+                    </tr>
+                  </tfoot>
+                  {% else %}
+                  <tr>
+                    <td colSpan="7">
+                      <h3>Your cart is empty ʕ⁠´⁠•⁠ ⁠ᴥ⁠•̥⁠`⁠ʔ</h3>
+                    </td>
+                  </tr>
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <td colSpan="7">Money will become what you want!<br />
+                        <div>
+                          <a href="/"><button type="button" class="btn btn-success checkout"
+                              data-dismiss="modal">Continue Shopping</button></a>
+                        </div>
+                      </td>
+                    </tr>
+                  </tfoot>
+                  {% endif %}
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</main>
+
+{% endblock %}
